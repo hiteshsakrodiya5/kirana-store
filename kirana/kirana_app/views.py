@@ -31,3 +31,13 @@ class ListViewItem(APIView):
             return Response({"result": serial_data.data}, status.HTTP_200_OK)
         except Item.DoesNotExist:
             return Response({"fail":"empty data"}, status.HTTP_400_BAD_REQUEST)
+
+
+class DetailItem(APIView):
+    def get(self, request, item_id):
+        try:
+            item = Item.objects.get(id=item_id)
+            serial_data = ItemSerializer(item)
+            return Response({"result": serial_data.data}, status.HTTP_200_OK)
+        except Item.DoesNotExist:
+            return Response({"fail":"empty data"}, status.HTTP_400_BAD_REQUEST)
