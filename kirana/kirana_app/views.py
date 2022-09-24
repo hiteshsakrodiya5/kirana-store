@@ -21,3 +21,13 @@ class AddItem(APIView):
             }
             )
             return Response({"sucess": item_create}, status.HTTP_200_OK)
+
+
+class ListViewItem(APIView):
+    def get(self, request):
+        try:
+            item = Item.objects.all()
+            serial_data = ItemSerializer(item, many=True)
+            return Response({"result": serial_data.data}, status.HTTP_200_OK)
+        except Item.DoesNotExist:
+            return Response({"fail":"empty data"}, status.HTTP_400_BAD_REQUEST)
